@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 from node import Node
 import math
 
@@ -16,6 +17,22 @@ class App:
         self.canvas = tk.Canvas(self.root, width=self.width,
                                 height=self.height, bg='white')
         self.canvas.pack()
+        # display keys for UX
+        self.font = 'Arial 20'
+        self.start_pathfinding_label = tk.Label(text='ENTER - Start pathfinding', font=self.font)
+        self.binds_info_label = tk.Label(text='Select mode and click to do something', font=self.font)
+        self.reset_label = tk.Label(text='1 - Reset grid', font=self.font)
+        self.add_obstacle_label = tk.Label(text='2 - Add new obstacle', font=self.font)
+        self.remove_obstacle_label = tk.Label(text='3 - Remove obstacle', font=self.font)
+        self.set_start_label = tk.Label(text='4 - Set start node', font=self.font)
+        self.set_end_label = tk.Label(text='5 - Set end node', font=self.font)
+        self.start_pathfinding_label.pack()
+        self.binds_info_label.pack()
+        self.reset_label.pack()
+        self.add_obstacle_label.pack()
+        self.remove_obstacle_label.pack()
+        self.set_start_label.pack()
+        self.set_end_label.pack()
         self.nodes = self.create_grid()
         # open and closed list for pathfinding
         self.open = []
@@ -111,6 +128,9 @@ class App:
             
             self.loop = self.root.after(200, self.find_path)
 
+        elif len(self.path) == 0:
+            # no path
+            messagebox.showinfo(title='No Path', message='NO PATH FOUND')
         else:
             self.root.after_cancel(self.loop)
         
@@ -127,8 +147,11 @@ class App:
         # goes from the end trough the parents until the root(start) is found
         node = self.path[-1]
         if node == None:
+            # root node found
             self.root.after_cancel(self.backtrack_loop)
+            messagebox.showinfo(title='Path Found', message='PATH FOUND')
         else:
+            # keep looping
             node.change_color('blue')
             self.path.append(node.parent)
             self.backtrack_loop = self.root.after(50, self.backtrack)

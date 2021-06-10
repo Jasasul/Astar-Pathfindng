@@ -81,7 +81,6 @@ class App:
             self.open.remove(current)
             current.change_color('red')
             self.closed.append(current)
-            print(f'The current node is {current}, the end is {self.end}, and the current is end {current == self.end}')
             # end node found, time to backtrack the path
             if current == self.end:
                 self.root.after_cancel(self.loop)

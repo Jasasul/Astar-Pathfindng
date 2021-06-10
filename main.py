@@ -81,6 +81,7 @@ class App:
             self.open.remove(current)
             current.change_color('red')
             self.closed.append(current)
+            print(f'The current node is {current}, the end is {self.end}, and the current is end {current == self.end}')
             # end node found, time to backtrack the path
             if current == self.end:
                 self.root.after_cancel(self.loop)
@@ -98,8 +99,7 @@ class App:
                     # out of y-border, skip
                     if y < 0 or y >= self.height // self.cell_size:
                         continue
-                    # self, skip
-                    if x == 0 and y == 0:
+                    if i == 0 and j == 0:
                         continue
                     neighbour = self.nodes[x][y]
                     # if obstacle or in closed, skip
